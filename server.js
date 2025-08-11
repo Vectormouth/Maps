@@ -50,23 +50,19 @@ app.get('/test', async (req, res) => {
 
   // ⚠️ CAMEL CASE OBLIGATORIO
   const body = {
-    textQuery: 'dental clinics',
-    includedType: 'dentist',
-    strictTypeFiltering: true,
-    openNow,
-    languageCode: lang,
-    locationRestriction: {
-      circle: {
-        center: { latitude: lat, longitude: lng },
-        radius: km * 1000
-      }
+  textQuery: 'dental clinics',
+  includedType: 'dentist',
+  strictTypeFiltering: true,
+  openNow: !!openNow,
+  languageCode: lang,
+  locationRestriction: {             // ✅ camelCase
+    circle: {                        // ✅ camelCase
+      center: { latitude: lat, longitude: lng },
+      radius: Math.max(500, Math.min(100000, (radiusKm||3) * 1000))
     }
-  };
+  }
+};
 
-  const out = await callPlaces(body);
-  if (out.errorText) return res.status(out.status).send(out.errorText);
-  res.json(out.places);
-});
 
 // POST /api/dentists  { lat, lng, radiusKm, openNow, lang }
 app.post('/api/dentists', async (req, res) => {
