@@ -58,7 +58,7 @@ app.get('/test', async (req, res) => {
       strictTypeFiltering: true,
       openNow,
       languageCode: lang,
-      locationRestriction: {
+      locationBias: {
         circle: {
           center: { latitude: lat, longitude: lng },
           radius: km * 1000
